@@ -51,7 +51,7 @@
 	Open the settings menu to see some of the additional features.
 	<br />
 	Written with Svelte, in Typescript by
-	<a href="https://github.com/MikhaD" target="_blank" rel="noreferrer">MikhaD</a>.
+	<a href="https://github.com/betakyros" target="_blank" rel="noreferrer">betakyros</a>.
 </div>
 
 <style lang="scss">
