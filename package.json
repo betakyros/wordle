@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/betakyros/wordle/issues"
   },
-  "homepage": "https://github.com/betakyros/wordle#readme",
+  "homepage": "https://github.com/betakyros/wordle",
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
