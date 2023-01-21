@@ -1,5 +1,6 @@
 {
   "name": "wordle+",
+  "homepage": "https://betakyros.github.io/wordle/",
   "description": "A remake of the popular game Wordle with additional modes and features.",
   "version": "1.5.2",
   "type": "module",
@@ -20,7 +21,6 @@
   "bugs": {
     "url": "https://github.com/betakyros/wordle/issues"
   },
-  "homepage": "https://github.com/betakyros/wordle",
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
