@@ -7834,6 +7834,7 @@ const words = {
 		"marge",
 		"margs",
 		"maria",
+		"mario",
 		"marid",
 		"marka",
 		"marks",

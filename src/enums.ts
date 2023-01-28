@@ -1,8 +1,8 @@
 export enum GameMode {
-	"daily",
-	"hourly",
-	"infinite",
-	// "minutely",
+	// "daily",
+	// "hourly",
+	// "infinite",
+	"thirtyMinutely",
 };
 
 export const enum ms {

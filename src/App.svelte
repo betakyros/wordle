@@ -8,12 +8,14 @@
 		LetterStates,
 		getWordNumber,
 		words,
+		getAnswerWord
 	} from "./utils";
 	import Game from "./components/Game.svelte";
 	import { letterStates, settings, mode } from "./stores";
 	import { GameMode } from "./enums";
 	import { Toaster } from "./components/widgets";
 	import { setContext } from "svelte";
+	import wordsAnswers from "./words_5_answers.ts";
 
 	document.title = "Wordle+ | An infinite word guessing game";
 </script>
@@ -31,9 +33,7 @@
 	settings.subscribe((s) => localStorage.setItem("settings", JSON.stringify(s)));
 
 	const hash = window.location.hash.slice(1).split("/");
-	const modeVal: GameMode = !isNaN(GameMode[hash[0]])
-		? GameMode[hash[0]]
-		: +localStorage.getItem("mode") || modeData.default;
+	const modeVal: GameMode = modeData.default;
 	mode.set(modeVal);
 	// If this is a link to a specific word make sure that that is the word
 	if (!isNaN(+hash[1]) && +hash[1] < getWordNumber(modeVal)) {
@@ -45,7 +45,8 @@
 		localStorage.setItem("mode", `${m}`);
 		window.location.hash = GameMode[m];
 		stats = new Stats(localStorage.getItem(`stats-${m}`) || m);
-		word = words.words[seededRandomInt(0, words.words.length, modeData.modes[m].seed)];
+		word = getAnswerWord(modeData.modes[m]);
+		console.log(word);
 		if (modeData.modes[m].historical) {
 			state = new GameState(m, localStorage.getItem(`state-${m}-h`));
 		} else {

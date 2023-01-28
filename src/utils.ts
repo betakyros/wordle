@@ -1,6 +1,8 @@
 import seedRandom from "seedrandom";
 import { GameMode, ms } from "./enums";
+import { mode } from "./stores";
 import wordList from "./words_5";
+import wordsAnswers from "./words_5_answers";
 
 export const ROWS = 6;
 export const COLS = 5;
@@ -140,57 +142,60 @@ export const keys = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
 export function newSeed(mode: GameMode, time?: number) {
 	const now = time ?? Date.now();
 	switch (mode) {
-		case GameMode.daily:
-			// Adds time zone offset to UTC time, calculates how many days that falls after 1/1/1970
-			// and returns the unix time for the beginning of that day.
-			return Date.UTC(1970, 0, 1 + Math.floor((now - (new Date().getTimezoneOffset() * ms.MINUTE)) / ms.DAY));
-		case GameMode.hourly:
-			return now - (now % ms.HOUR);
-		// case GameMode.minutely:
-		// 	return now - (now % ms.MINUTE);
-		case GameMode.infinite:
-			return now - (now % ms.SECOND);
+		// case GameMode.daily:
+		// 	// Adds time zone offset to UTC time, calculates how many days that falls after 1/1/1970
+		// 	// and returns the unix time for the beginning of that day.
+		// 	return Date.UTC(1970, 0, 1 + Math.floor((now - (new Date().getTimezoneOffset() * ms.MINUTE)) / ms.DAY));
+		// case GameMode.hourly:
+		// 	return now - (now % ms.HOUR);
+		// // case GameMode.minutely:
+		// // 	return now - (now % ms.MINUTE);
+		// case GameMode.infinite:
+		// 	return now - (now % ms.SECOND);
+		case GameMode.thirtyMinutely:
+			return now - (now % (ms.MINUTE*30));
 	}
 }
 
 export const modeData: ModeData = {
-	default: GameMode.daily,
+	default: GameMode.thirtyMinutely,
 	modes: [
-		{
-			name: "Daily",
-			unit: ms.DAY,
-			start: 1642370400000,	// 17/01/2022 UTC+2
-			seed: newSeed(GameMode.daily),
-			historical: false,
-			streak: true,
-			useTimeZone: true,
-		},
-		{
-			name: "Hourly",
-			unit: ms.HOUR,
-			start: 1642528800000,	// 18/01/2022 8:00pm UTC+2
-			seed: newSeed(GameMode.hourly),
-			historical: false,
-			icon: "m50,7h100v33c0,40 -35,40 -35,60c0,20 35,20 35,60v33h-100v-33c0,-40 35,-40 35,-60c0,-20 -35,-20 -35,-60z",
-			streak: true,
-		},
-		{
-			name: "Infinite",
-			unit: ms.SECOND,
-			start: 1642428600000,	// 17/01/2022 4:10:00pm UTC+2
-			seed: newSeed(GameMode.infinite),
-			historical: false,
-			icon: "m7,100c0,-50 68,-50 93,0c25,50 93,50 93,0c0,-50 -68,-50 -93,0c-25,50 -93,50 -93,0z",
-		},
 		// {
-		// 	name: "Minutely",
-		// 	unit: ms.MINUTE,
-		// 	start: 1642528800000,	// 18/01/2022 8:00pm
-		// 	seed: newSeed(GameMode.minutely),
+		// 	name: "Daily",
+		// 	unit: ms.DAY,
+		// 	start: 1642370400000,	// 17/01/2022 UTC+2
+		// 	seed: newSeed(GameMode.daily),
 		// 	historical: false,
-		// 	icon: "m7,200v-200l93,100l93,-100v200",
+		// 	streak: true,
+		// 	useTimeZone: true,
+		// },
+		// {
+		// 	name: "Hourly",
+		// 	unit: ms.HOUR,
+		// 	start: 1642528800000,	// 18/01/2022 8:00pm UTC+2
+		// 	seed: newSeed(GameMode.hourly),
+		// 	historical: false,
+		// 	icon: "m50,7h100v33c0,40 -35,40 -35,60c0,20 35,20 35,60v33h-100v-33c0,-40 35,-40 35,-60c0,-20 -35,-20 -35,-60z",
 		// 	streak: true,
 		// },
+		// {
+		// 	name: "Infinite",
+		// 	unit: ms.SECOND,
+		// 	start: 1642428600000,	// 17/01/2022 4:10:00pm UTC+2
+		// 	seed: newSeed(GameMode.infinite),
+		// 	historical: false,
+		// 	streak: false,
+		// 	icon: "m7,100c0,-50 68,-50 93,0c25,50 93,50 93,0c0,-50 -68,-50 -93,0c-25,50 -93,50 -93,0z",
+		// },
+		{
+			name: "Thirty Minutely",
+			unit: ms.MINUTE*30,
+			start: 1642528800000,	// 18/01/2022 8:00pm
+			seed: newSeed(GameMode.thirtyMinutely),
+			historical: false,
+			icon: "m7,200v-200l93,100l93,-100v200",
+			streak: true,
+		},
 	]
 };
 /**
@@ -460,4 +465,8 @@ export function timeRemaining(m: Mode) {
 
 export function failed(s: GameState) {
 	return !(s.active || (s.guesses > 0 && s.board.state[s.guesses - 1].join("") === "🟩".repeat(COLS)));
+}
+
+export function getAnswerWord(m: Mode) {
+	return wordsAnswers.words[(Math.floor(Date.now()/m.unit)%wordsAnswers.words.length)];
 }

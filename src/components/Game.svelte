@@ -32,7 +32,9 @@
 		LetterStates,
 		words,
 		Stats,
+		getAnswerWord
 	} from "../utils";
+	import wordsAnswers from "../words_5_answers.ts";
 	import { letterStates, settings, mode } from "../stores";
 
 	export let word: string;
@@ -125,7 +127,7 @@
 		modeData.modes[$mode].historical = false;
 		modeData.modes[$mode].seed = newSeed($mode);
 		game = new GameState($mode, localStorage.getItem(`state-${$mode}`));
-		word = words.words[seededRandomInt(0, words.words.length, modeData.modes[$mode].seed)];
+		word = getAnswerWord(modeData.modes[$mode]);
 		$letterStates = new LetterStates();
 		showStats = false;
 		showRefresh = false;
