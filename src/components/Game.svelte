@@ -38,6 +38,7 @@
 	import { letterStates, settings, mode } from "../stores";
 
 	export let word: string;
+	export let desc: string;
 	export let stats: Stats;
 	export let game: GameState;
 	export let toaster: Toaster;
@@ -127,7 +128,11 @@
 		modeData.modes[$mode].historical = false;
 		modeData.modes[$mode].seed = newSeed($mode);
 		game = new GameState($mode, localStorage.getItem(`state-${$mode}`));
-		word = getAnswerWord(modeData.modes[$mode]);
+		const wordAndDesc = getAnswerWord(modeData.modes[$mode]);
+		word=wordAndDesc[0];
+		desc=wordAndDesc[1];
+				console.log("desc2" + desc);
+
 		$letterStates = new LetterStates();
 		showStats = false;
 		showRefresh = false;
@@ -222,7 +227,7 @@
 	</Separator>
 	<ShareGame wordNumber={game.wordNumber} />
 	{#if !game.active}
-		<Definition {word} alternates={2} />
+		<Definition {word} {desc} alternates={2} />
 	{:else}
 		<!-- Fade with delay is to prevent a bright red button from appearing as soon as refresh is pressed -->
 		<div

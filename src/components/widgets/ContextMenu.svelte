@@ -20,7 +20,7 @@
 			<br />
 			{pSols} valid guess{pSols > 1 ? "es" : ""}
 		</div>
-		<Definition {word} alternates={1} />
+		<Definition {word} {desc} alternates={1} />
 	{:else}
 		<div>
 			Considering all hints, there {pAns > 1 ? "are" : "is"}:

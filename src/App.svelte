@@ -26,6 +26,7 @@
 	localStorage.setItem("version", version);
 	let stats: Stats;
 	let word: string;
+	let desc: string;
 	let state: GameState;
 	let toaster: Toaster;
 
@@ -45,8 +46,10 @@
 		localStorage.setItem("mode", `${m}`);
 		window.location.hash = GameMode[m];
 		stats = new Stats(localStorage.getItem(`stats-${m}`) || m);
-		word = getAnswerWord(modeData.modes[m]);
-		console.log(word);
+		const wordAndDesc = getAnswerWord(modeData.modes[m]);
+		word = wordAndDesc[0];
+		desc = wordAndDesc[1];
+		console.log("desc1" + desc);
 		if (modeData.modes[m].historical) {
 			state = new GameState(m, localStorage.getItem(`state-${m}-h`));
 		} else {
@@ -68,5 +71,5 @@
 
 <Toaster bind:this={toaster} />
 {#if toaster}
-	<Game {stats} bind:word {toaster} bind:game={state} />
+	<Game {stats} bind:word bind:desc {toaster} bind:game={state} />
 {/if}

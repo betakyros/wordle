@@ -5,12 +5,15 @@
 <script lang="ts">
 	export let word: string;
 	cache.set(word);
+	
+	export let desc: string;
+	cache.set(desc);
 </script>
 
 <div class="def">
 	<h2>{word}</h2>
 	<ol>
-		This is where we can put custom definitions of our words
+		{desc}
 	</ol>
 </div>
 
